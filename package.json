@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:prod": "webpack --env mode=production",
+    "start:dev": "nodemon",
+    "start:prod": "npm run build:prod && node ./dist/main.js"
   },
   "keywords": [],
   "author": "Alex Bodnar",

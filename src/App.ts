@@ -1,6 +1,6 @@
 class App {
     listen(port: number, callback: () => void) {
-      console.log(port);
+        console.log(port);
     }
-  }
-  export default App;
+}
+export default App;

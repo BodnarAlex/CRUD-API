@@ -3,10 +3,10 @@ import App from "./App";
 
 dotenv.config();
 
-const PORT = 3000;
-const BASE_URL = `http://localhost:${PORT}`;
-
 export const app = new App();
+
+const { envArg } = process.env;
+const PORT = parseInt(envArg, 10) || 3000;
 
   try {
     app.listen(+PORT, () => {

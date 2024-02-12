@@ -13,5 +13,5 @@ try {
     console.log(`Server started on port ${PORT}`);
   });
 } catch (e) {
-  console.log(e);
+  throw new Error(e);
 }

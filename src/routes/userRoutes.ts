@@ -1,12 +1,35 @@
-import express from "express";
+import { IncomingMessage, ServerResponse } from "http";
 import { getUsers, getUserById, createUser, updateUser, deleteUser } from "../controllers/userController";
 
-const router = express.Router();
+const userRoutes = (req: IncomingMessage, res: ServerResponse, pathname: string): boolean => {
+  if (pathname === "/api/users" && req.method === "GET") {
+    getUsers(req, res);
+    return true;
+  }
 
-router.get("/users", getUsers);
-router.get("/users/:userId", getUserById);
-router.post("/users", createUser);
-router.put("/users/:userId", updateUser);
-router.delete("/users/:userId", deleteUser);
+  const userIdMatch = pathname.match(/^\/api\/users\/([0-9a-fA-F-]+)$/);
+  console.log("userIdMatch", userIdMatch);
 
-export default router;
+  if (userIdMatch && req.method === "GET") {
+    req.url = userIdMatch[1];
+    getUserById(req, res);
+    return true;
+  }
+  if (pathname === "/api/users" && req.method === "POST") {
+    createUser(req, res);
+    return true;
+  }
+  if (userIdMatch && req.method === "PUT") {
+    req.url = userIdMatch[1];
+    updateUser(req, res);
+    return true;
+  }
+  if (userIdMatch && req.method === "DELETE") {
+    req.url = userIdMatch[1];
+    deleteUser(req, res);
+    return true;
+  }
+  return false;
+};
+
+export default userRoutes;

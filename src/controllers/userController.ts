@@ -20,7 +20,6 @@ export const getUsers = (req: IncomingMessage, res: ServerResponse) => {
 
 export const getUserById = (req: IncomingMessage, res: ServerResponse) => {
   const userId = req.url;
-  console.log("userId", req.url);
 
   if (!userId || !validateUUID(userId)) {
     res.statusCode = 400;
@@ -44,7 +43,9 @@ export const createUser = async (req: IncomingMessage, res: ServerResponse) => {
   try {
     const { username, age, hobbies } = await parseJSON(req);
 
-    if (!username || !age || !Array.isArray(hobbies)) {
+    if (typeof username !== 'string' || !username ||
+        typeof age !== 'number' || age < 0 ||
+        !Array.isArray(hobbies) || !hobbies.every(hobby => typeof hobby === 'string')) {
       res.statusCode = 400;
       res.end(JSON.stringify({ message: "Invalid request body" }));
       return;
@@ -78,6 +79,15 @@ export const updateUser = async (req: IncomingMessage, res: ServerResponse) => {
 
   try {
     const { username, age, hobbies } = await parseJSON(req);
+
+    if (typeof username !== 'string' || !username ||
+        typeof age !== 'number' || age < 0 ||
+        !Array.isArray(hobbies) || !hobbies.every(hobby => typeof hobby === 'string')) {
+      res.statusCode = 400;
+      res.end(JSON.stringify({ message: "Invalid request body" }));
+      return;
+    }
+
     const updatedUser: User = { ...users[userIndex], username, age, hobbies };
     users[userIndex] = updatedUser;
     res.statusCode = 200;

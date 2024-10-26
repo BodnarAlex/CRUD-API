@@ -1,18 +1,23 @@
-import * as dotenv from "dotenv";
-import App from "./App";
-import { DEFAULT_PORT } from "./common/constant";
+import express from "express";
+import dotenv from "dotenv";
+import userRoutes from "./routes/userRoutes";
 
 dotenv.config();
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-export const app = new App();
+app.use(express.json());
+app.use("/api", userRoutes);
 
-const { envArg } = process.env;
-const PORT = parseInt(envArg, 10) || DEFAULT_PORT;
+app.use((req, res) => {
+  res.status(404).json({ message: "Endpoint not found" });
+});
 
-try {
-  app.listen(+PORT, () => {
-    console.log(`Server started on port ${PORT}`);
-  });
-} catch (e) {
-  throw new Error(e);
-}
+app.use((err: any, req: any, res: any, next: any) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "An internal server error occurred" });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

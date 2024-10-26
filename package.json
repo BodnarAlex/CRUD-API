@@ -7,7 +7,8 @@
     "build:prod": "webpack --config webpack.config.js",
     "start:dev": "nodemon src/index.ts",
     "start:prod": "npm run build:prod && node ./dist/index.ts",
-    "start:multi": "cross-env MULTI=true nodemon src/multi.ts"
+    "start:multi": "cross-env MULTI=true nodemon src/multi.ts",
+    "test": "jest"
   },
   "keywords": [],
   "author": "Alex Bodnar",
@@ -19,6 +20,8 @@
     "@types/jest": "^29.5.12",
     "@types/nedb": "^1.8.16",
     "@types/node": "^20.11.17",
+    "@types/supertest": "^6.0.2",
+    "@types/uuid": "^10.0.0",
     "typescript": "^5.3.3",
     "webpack": "^5.90.1",
     "webpack-cli": "^5.1.4"
@@ -27,6 +30,7 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.2",
     "nodemon": "^3.0.3",
+    "supertest": "^7.0.0",
     "ts-jest": "^29.1.2",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",

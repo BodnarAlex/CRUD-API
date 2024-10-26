@@ -4,6 +4,10 @@ import app from "../index";
 describe("User API", () => {
   let userId: string;
 
+  afterAll((done) => {
+    app.close(done);
+  });
+
   it("GET /api/users - should return an empty array initially", async () => {
     const response = await request(app).get("/api/users");
     expect(response.status).toBe(200);

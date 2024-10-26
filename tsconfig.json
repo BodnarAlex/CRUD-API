@@ -1,20 +1,22 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
-    "noImplicitAny": true,
-    "module": "NodeNext",
-    "target": "es5",
-    "allowJs": true,
-    "moduleResolution": "NodeNext",
-    "allowSyntheticDefaultImports": true,
+    "target": "es2016",
+    "module": "CommonJS",
     "esModuleInterop": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "outDir": "./dist",
   },
   "include": [
-    "./src/"
+    "src/**/*"
   ],
-  "ts-node": {
-    "compilerOptions": {
-      "module": "CommonJS",
-    },
-  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/test/**/*",
+    "src/**/*.test.ts"
+  ]
 }

@@ -11,7 +11,7 @@ const PORT = process.env.PORT || DEFAULT_PORT;
 const app = createServer((req, res) => {
   const { pathname } = parse(req.url || "", true);
 
-  const handled = userRoutes(req, res, pathname);
+  const handled = userRoutes(req, res, pathname || "");
 
   if (!handled) {
     res.statusCode = 404;

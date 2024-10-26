@@ -4,11 +4,11 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "build:prod": "webpack --config webpack.config.js",
+    "build": "tsc",
     "start:dev": "nodemon src/index.ts",
-    "start:prod": "npm run build:prod && node ./dist/index.ts",
+    "start:prod": "npm run build && node dist/index.js",
     "start:multi": "cross-env MULTI=true nodemon src/multi.ts",
-    "test": "jest"
+    "test": "jest --detectOpenHandles"
   },
   "keywords": [],
   "author": "Alex Bodnar",

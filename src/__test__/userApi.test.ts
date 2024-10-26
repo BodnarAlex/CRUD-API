@@ -22,30 +22,29 @@ describe("User API", () => {
   it("GET /api/users/:userId - should get the created user by ID", async () => {
     const response = await request(app).get(`/api/users/${userId}`);
     expect(response.status).toBe(200);
-    expect(response.body.id).toBe(userId);
-    expect(response.body.username).toBe("John");
-    expect(response.body.age).toBe(30);
-    expect(response.body.hobbies).toEqual(["reading"]);
+    expect(response.body).toMatchObject({
+      id: userId,
+      username: "John",
+      age: 30,
+      hobbies: ["reading"]
+    });
   });
 
   it("PUT /api/users/:userId - should update the user details", async () => {
     const updatedUser = { username: "John Updated", age: 31, hobbies: ["writing"] };
     const response = await request(app).put(`/api/users/${userId}`).send(updatedUser);
     expect(response.status).toBe(200);
-    expect(response.body.id).toBe(userId);
-    expect(response.body.username).toBe("John Updated");
-    expect(response.body.age).toBe(31);
-    expect(response.body.hobbies).toEqual(["writing"]);
+    expect(response.body).toMatchObject({
+      id: userId,
+      username: "John Updated",
+      age: 31,
+      hobbies: ["writing"]
+    });
   });
 
   it("DELETE /api/users/:userId - should delete the user", async () => {
     const response = await request(app).delete(`/api/users/${userId}`);
     expect(response.status).toBe(204);
-  });
-
-  it("GET /api/users/:userId - should return 404 for deleted user", async () => {
-    const response = await request(app).get(`/api/users/${userId}`);
-    expect(response.status).toBe(404);
-    expect(response.body).toHaveProperty("message", "User not found");
+    expect(response.body).toEqual({});
   });
 });

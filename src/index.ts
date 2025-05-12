@@ -6,7 +6,7 @@ import { DEFAULT_PORT } from "./common/constant";
 
 dotenv.config();
 
-const PORT = process.env.PORT || DEFAULT_PORT;
+const PORT = Number(process.env.PORT) || DEFAULT_PORT;
 
 const app = createServer((req, res) => {
   const { pathname } = parse(req.url || "", true);

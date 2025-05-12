@@ -9,14 +9,18 @@ dotenv.config();
 const PORT = Number(process.env.PORT) || DEFAULT_PORT;
 
 const app = createServer((req, res) => {
-  const { pathname } = parse(req.url || "", true);
+  try {
+    const { pathname } = parse(req.url || "", true);
+    const handled = userRoutes(req, res, pathname || "");
 
-  const handled = userRoutes(req, res, pathname || "");
-
-  if (!handled) {
-    res.statusCode = 404;
-    res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({ message: "Endpoint not found" }));
+    if (!handled) {
+      res.statusCode = 404;
+      res.setHeader("Content-Type", "application/json");
+      res.end(JSON.stringify({ message: "Endpoint not found" }));
+    }
+  } catch (err) {
+    res.statusCode = 500;
+    res.end(JSON.stringify({ message: "An internal server error occurred" }));
   }
 });
 

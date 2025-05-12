@@ -84,14 +84,15 @@ if (process.env.MULTI === "true" && cluster.isPrimary) {
 } else {
   const port = Number(process.env.WORKER_PORT || PORT);
   const app = createServer(async (req, res) => {
-    const { pathname } = parse(req.url||"", true);
-    const body = await (async () => {
-      if (["POST","PUT"].includes(req.method||"")) {
-        let buf=""; for await(const ch of req) buf+=ch;
-        return JSON.parse(buf||"{}");
-      }
-      return null;
-    })();
+    try {
+      const { pathname } = parse(req.url||"", true);
+      const body = await (async () => {
+        if (["POST","PUT"].includes(req.method||"")) {
+          let buf=""; for await(const ch of req) buf+=ch;
+          return JSON.parse(buf||"{}");
+        }
+        return null;
+      })();
 
     const rid = `${Date.now()}-${Math.random()}`;
     let ipcReq: IPCRequest|undefined;
@@ -122,6 +123,10 @@ if (process.env.MULTI === "true" && cluster.isPrimary) {
       process.off("message", onMsg);
     };
     process.on("message", onMsg);
+  } catch (err) {
+    res.statusCode = 500;
+    res.end(JSON.stringify({ message: "An internal server error occurred" }));
+  }
   });
 
   app.listen(port, () => {

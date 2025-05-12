@@ -13,12 +13,18 @@ const parseJSON = async (req: IncomingMessage): Promise<any> => {
 };
 
 export const getUsers = (req: IncomingMessage, res: ServerResponse) => {
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(users));
+  try {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify(users));
+  } catch (err) {
+    res.statusCode = 500;
+    res.end(JSON.stringify({ message: "An internal server error occurred" }));
+  }
 };
 
 export const getUserById = (req: IncomingMessage, res: ServerResponse) => {
+  try {
   const userId = req.url;
 
   if (!userId || !validateUUID(userId)) {
@@ -34,9 +40,13 @@ export const getUserById = (req: IncomingMessage, res: ServerResponse) => {
     return;
   }
 
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(user));
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify(user));
+  } catch (err) {
+    res.statusCode = 500;
+    res.end(JSON.stringify({ message: "An internal server error occurred" }));
+  }
 };
 
 export const createUser = async (req: IncomingMessage, res: ServerResponse) => {
@@ -111,21 +121,26 @@ export const updateUser = async (req: IncomingMessage, res: ServerResponse) => {
 };
 
 export const deleteUser = (req: IncomingMessage, res: ServerResponse) => {
-  const userId = req.url;
-  if (!userId || !validateUUID(userId)) {
-    res.statusCode = 400;
-    res.end(JSON.stringify({ message: "Invalid user ID" }));
-    return;
-  }
+  try {
+    const userId = req.url;
+    if (!userId || !validateUUID(userId)) {
+      res.statusCode = 400;
+      res.end(JSON.stringify({ message: "Invalid user ID" }));
+      return;
+    }
 
-  const userIndex = users.findIndex((u) => u.id === userId);
-  if (userIndex === -1) {
-    res.statusCode = 404;
-    res.end(JSON.stringify({ message: "User not found" }));
-    return;
-  }
+    const userIndex = users.findIndex((u) => u.id === userId);
+    if (userIndex === -1) {
+      res.statusCode = 404;
+      res.end(JSON.stringify({ message: "User not found" }));
+      return;
+    }
 
-  users.splice(userIndex, 1);
-  res.statusCode = 204;
-  res.end();
+    users.splice(userIndex, 1);
+    res.statusCode = 204;
+    res.end();
+  } catch (err) {
+    res.statusCode = 500;
+    res.end(JSON.stringify({ message: "An internal server error occurred" }));
+  }
 };

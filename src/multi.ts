@@ -9,7 +9,7 @@ import { IPCResponse, IPCRequest, User } from "./common/types";
 
 dotenv.config();
 
-const PORT = Number(process.env.PORT) || DEFAULT_PORT;
+const PORT = Number(process.env.WORKER_PORT) || DEFAULT_PORT;
 const WORKERS = availableParallelism() - 1;
 
 if (process.env.MULTI === "true" && cluster.isPrimary) {

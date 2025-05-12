@@ -36,10 +36,16 @@ Starting the program.
 For easier verification, I leave examples for work. The number one at the end of the endpoint represents the existing user ID.
 
 - GET
+Returns a list of existing or existing users with the code 200
+OK.
+
 `http://localhost:4000/api/users`
 `http://localhost:4000/api/users/1`
 
 - POST
+Will create a new user with the code 201
+Created
+
 `http://localhost:4000/api/users`
 ```
 {
@@ -48,7 +54,9 @@ For easier verification, I leave examples for work. The number one at the end of
   "hobbies": ["IT", "science", "Node"]
 }
 ```
-- PUT
+- PUT.
+You can change both all data and individual parts.
+Below are two working examples
  `http://localhost:4000/api/users/1`
 ```
  {
@@ -57,5 +65,13 @@ For easier verification, I leave examples for work. The number one at the end of
   "hobbies": ["IT", "science", "Node", "React"]
 }
 ```
+```
+ {
+  "username": "Lev",
+  "hobbies": ["Game", "science", "sport"]
+}
+```
 - DELETE
+Delete and if successful return 204
+No Content
 `http://localhost:4000/api/users/1`

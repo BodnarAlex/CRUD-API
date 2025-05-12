@@ -2,6 +2,8 @@ import { IncomingMessage, ServerResponse } from "http";
 import { getUsers, getUserById, createUser, updateUser, deleteUser } from "../controllers/userController";
 
 const userRoutes = (req: IncomingMessage, res: ServerResponse, pathname: string): boolean => {
+  console.log(`Request: ${req.method} ${req.url} on PORT ${req.socket.localPort} `);
+
   if (pathname === "/api/users" && req.method === "GET") {
     getUsers(req, res);
     return true;

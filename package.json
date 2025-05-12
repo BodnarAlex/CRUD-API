@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "start:dev": "nodemon --exec ts-node src/index.ts",
-    "start:prod": "npm run build && node dist/bundle.js",
+    "start:prod": "cross-env NODE_ENV=production npm run build && node dist/bundle.js",
     "start:multi": "cross-env MULTI=true nodemon src/multi.ts",
     "test": "jest --detectOpenHandles"
   },

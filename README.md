@@ -5,7 +5,9 @@
  ```bash
  PORT = 4000
 ```
-and run the command
+Please note that the ".env" file must be in the same directory where the file "package.json".
+
+And run the command
  ```bash
 - npm install
 ```
@@ -43,17 +45,17 @@ For easier verification, I leave examples for work. The number one at the end of
 {
   "username": "Alex Bodnar",
   "age": 27,
-  "hobby": ["IT", "science", "Node"]
+  "hobbies": ["IT", "science", "Node"]
 }
 ```
-- PULL
+- PUT
  `http://localhost:4000/api/users/1`
-
+```
  {
   "username": "Alex Smitt",
   "age": 28,
-  "hobby": ["IT", "science", "Node", "React"]
+  "hobbies": ["IT", "science", "Node", "React"]
 }
-
+```
 - DELETE
 `http://localhost:4000/api/users/1`

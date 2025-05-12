@@ -65,6 +65,7 @@ export const createUser = async (req: IncomingMessage, res: ServerResponse) => {
 export const updateUser = async (req: IncomingMessage, res: ServerResponse) => {
   const userId = req.url;
   if (!userId || !validateUUID(userId)) {
+
     res.statusCode = 400;
     res.end(JSON.stringify({ message: "Invalid user ID" }));
     return;
@@ -80,15 +81,25 @@ export const updateUser = async (req: IncomingMessage, res: ServerResponse) => {
   try {
     const { username, age, hobbies } = await parseJSON(req);
 
-    if (typeof username !== 'string' || !username ||
-        typeof age !== 'number' || age < 0 ||
-        !Array.isArray(hobbies) || !hobbies.every(hobby => typeof hobby === 'string')) {
+    if (
+      (username !== undefined && typeof username !== 'string') ||
+      (age !== undefined && (typeof age !== 'number' || age < 0)) ||
+      (hobbies !== undefined && (!Array.isArray(hobbies) || !hobbies.every(hobby => typeof hobby === 'string')))
+    ) {
       res.statusCode = 400;
       res.end(JSON.stringify({ message: "Invalid request body" }));
       return;
     }
 
-    const updatedUser: User = { ...users[userIndex], username, age, hobbies };
+    const existingUser = users[userIndex];
+
+    const updatedUser: User = {
+      ...existingUser,
+      username: username !== undefined ? username : existingUser.username,
+      age: age !== undefined ? age : existingUser.age,
+      hobbies: hobbies !== undefined ? hobbies : existingUser.hobbies,
+    };
+
     users[userIndex] = updatedUser;
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");

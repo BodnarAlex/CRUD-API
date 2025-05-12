@@ -17,7 +17,7 @@
     "@types/body-parser": "^1.19.5",
     "@types/jest": "^29.5.12",
     "@types/nedb": "^1.8.16",
-    "@types/node": "^20.11.17",
+    "@types/node": "^20.17.46",
     "@types/supertest": "^6.0.2",
     "@types/uuid": "^10.0.0",
     "typescript": "^5.6.3",

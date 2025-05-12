@@ -11,9 +11,6 @@ const userRoutes = (req: IncomingMessage, res: ServerResponse, pathname: string)
 
   const userIdMatch = pathname.match(/^\/api\/users\/([0-9a-fA-F-]+)$/);
 
-  if (userIdMatch)
-    console.log("userIdMatch", userIdMatch);
-
   if (userIdMatch && req.method === "GET") {
     req.url = userIdMatch[1];
     getUserById(req, res);
